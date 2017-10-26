@@ -7,17 +7,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,9 +26,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import id.web.widat.SimpleRESTIntegration.constants.Method;
 import id.web.widat.SimpleRESTIntegration.constants.Protocol;
 import id.web.widat.SimpleRESTIntegration.model.Response;
@@ -39,6 +33,7 @@ import id.web.widat.SimpleRESTIntegration.model.Response;
 public class RESTClient {
 
 	private static class DefaultTrustManager implements X509TrustManager {
+		
 		public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 		}
 
@@ -48,43 +43,57 @@ public class RESTClient {
 		public X509Certificate[] getAcceptedIssuers() {
 			return null;
 		}
+		
 	}
 
 	private static SSLContext disabledSSL() {
 
 		try {
+		
 			SSLContext sslContext = SSLContext.getInstance("TLS");
 			sslContext.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new SecureRandom());
+		
 			return sslContext;
+		
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
 		return null;
+	
 	}
 
-	private static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException {
+	private static String getQuery(Map<String, String> params) {
 
-		StringBuilder stringBuilder = new StringBuilder();
-		boolean first = true;
+		StringBuilder result = new StringBuilder();
+		boolean first = false;
 
 		try {
 
-			for (NameValuePair pair : params) {
-				if (first) {
-					first = false;
+			Set<String> keys = params.keySet();
+
+			for (String key : keys) {
+	
+				if (!first) {
+					first = true;
 				} else {
-					stringBuilder.append("&");
+					result.append("&");
 				}
-				stringBuilder.append(URLEncoder.encode(pair.getName(), "UTF-8"));
-				stringBuilder.append("=");
-				stringBuilder.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
+				
+				result.append(URLEncoder.encode(key, "UTF-8"));
+				result.append("=");
+				result.append(URLEncoder.encode(params.get(key), "UTF-8"));
+			
 			}
-			return stringBuilder.toString();
 
 		} catch (Exception e) {
+
 			System.out.println(e.getMessage());
+
 		}
-		return null;
+
+		return result.toString();
+	
 	}
 
 	@SuppressWarnings("unchecked")
@@ -100,6 +109,7 @@ public class RESTClient {
 		Response response = new Response();
 
 		try {
+	
 			if (protocol.equalsIgnoreCase(Protocol.HTTPS)) {
 
 				SSLContext.setDefault(disabledSSL());
@@ -111,6 +121,7 @@ public class RESTClient {
 			if (protocol.equalsIgnoreCase(Protocol.HTTP)) {
 
 				httpURLConnection = (HttpURLConnection) url.openConnection();
+			
 				if (method.equalsIgnoreCase(Method.GET)) {
 
 					httpURLConnection.setRequestMethod(Method.GET);
@@ -126,19 +137,25 @@ public class RESTClient {
 				if (property != null) {
 
 					Set<String> keySet = property.keySet();
+				
 					for (String key : keySet) {
 						httpURLConnection.setRequestProperty(key, property.get(key));
 					}
 
 				}
+				
 			} else if (protocol.equalsIgnoreCase(Protocol.HTTPS)) {
 
 				httpsURLConnection = (HttpsURLConnection) url.openConnection();
 
 				httpsURLConnection.setHostnameVerifier(new HostnameVerifier() {
+				
 					public boolean verify(String hostname, SSLSession session) {
+					
 						return true;
+					
 					}
+					
 				});
 
 				if (method.equalsIgnoreCase(Method.GET)) {
@@ -155,8 +172,11 @@ public class RESTClient {
 				if (property != null) {
 
 					Set<String> keySet = property.keySet();
+					
 					for (String key : keySet) {
+					
 						httpsURLConnection.setRequestProperty(key, property.get(key));
+					
 					}
 
 				}
@@ -165,30 +185,31 @@ public class RESTClient {
 
 			if (method.equalsIgnoreCase(Method.POST) || method.equalsIgnoreCase(Method.PUT)) {
 
-				Map<String, String> formData = new HashMap<String, String>();
+				Map<String, String> mapData = new HashMap<String, String>();
 
 				if (data != null) {
 
 					if (protocol.equalsIgnoreCase(Protocol.HTTP)) {
+					
 						outputStream = httpURLConnection.getOutputStream();
+					
 					} else if (protocol.equalsIgnoreCase(Protocol.HTTPS)) {
+					
 						outputStream = httpsURLConnection.getOutputStream();
+					
 					}
 
 					if (data instanceof Map) {
 
-						formData = (Map<String, String>) data;
-						List<NameValuePair> fields = new ArrayList<NameValuePair>();
-						Set<String> keySet = formData.keySet();
-						for (String key : keySet) {
-							fields.add(new BasicNameValuePair(key, formData.get(key)));
-						}
+						mapData = (Map<String, String>) data;
 
 						BufferedWriter bufferedWriter = new BufferedWriter(
 								new OutputStreamWriter(outputStream, "UTF-8"));
 
 						if (property.get("Content-Type").equalsIgnoreCase("application/x-www-form-urlencoded")) {
-							bufferedWriter.write(getQuery(fields));
+					
+							bufferedWriter.write(getQuery(mapData));
+						
 						}
 
 						bufferedWriter.flush();
@@ -240,6 +261,7 @@ public class RESTClient {
 					while ((length = is.read(bytes)) > -1) {
 						baos.write(bytes, 0, length);
 					}
+					
 					baos.flush();
 
 					String base64result = Base64.getEncoder().encodeToString(baos.toByteArray());
