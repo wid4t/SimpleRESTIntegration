@@ -31,16 +31,12 @@ import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import id.web.widat.SimpleRESTIntegration.constants.Method;
 import id.web.widat.SimpleRESTIntegration.constants.Protocol;
 import id.web.widat.SimpleRESTIntegration.model.Response;
 
 public class RESTClient {
-
-	Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
 	private static class DefaultTrustManager implements X509TrustManager {
 		public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
