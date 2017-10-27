@@ -68,3 +68,4 @@ result:
   "message": "OK",
   "result": "{  \"args\": {},   \"data\": \"\",   \"files\": {},   \"form\": {    \"alamat\": \"pati\",     \"nama\": \"widat\"  },   \"headers\": {    \"Accept\": \"text/html, image/gif, image/jpeg, *; q\u003d.2, */*; q\u003d.2\",     \"Connection\": \"close\",     \"Content-Length\": \"22\",     \"Content-Type\": \"application/x-www-form-urlencoded\",     \"Host\": \"httpbin.org\",     \"User-Agent\": \"Java/1.8.0_91\"  },   \"json\": null,   \"origin\": \"115.178.215.135\",   \"url\": \"http://httpbin.org/post\"}"
 }
+```
