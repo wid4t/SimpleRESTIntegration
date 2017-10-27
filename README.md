@@ -54,6 +54,18 @@ public class App {
 	}
 }
 ```
+result:
+
+```json
+{
+  "form": {
+    "nama": "widat",
+    "alamat": "pati"
+  }
+}
+
+```
+
 
 You can use the [editor on GitHub](https://github.com/wid4t/SimpleRESTIntegration/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
