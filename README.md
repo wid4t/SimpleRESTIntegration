@@ -12,7 +12,7 @@ in this section we will explain how to use the simple library for get data from 
 
 1. POST example
 
-```markdown
+```java
 package com.data.simplerest;
 
 import java.util.HashMap;
