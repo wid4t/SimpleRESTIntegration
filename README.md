@@ -28,8 +28,6 @@ import id.web.widat.SimpleRESTIntegration.model.Response;
 
 public class App {
 
-
-
 	public static void test1(){
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
