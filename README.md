@@ -2,13 +2,15 @@
 
 in this section we will explain how to use the simple library for get data from other resources
 
-- for use this library you must adding dependency to your pom in your project, with
+for use this library you must adding dependency to your pom in your project, with
 
+```xml
 <dependency>
     <groupId>id.web.widat</groupId>
     <artifactId>SimpleRESTIntegration</artifactId>
     <version>0.0.2</version>
 </dependency>
+```
 
 1. POST example
 
