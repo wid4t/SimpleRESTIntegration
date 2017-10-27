@@ -2,6 +2,59 @@
 
 in this section we will explain how to use the simple library for get data from other resources
 
+- for use this library you must adding dependency to your pom in your project, with
+
+<dependency>
+    <groupId>id.web.widat</groupId>
+    <artifactId>SimpleRESTIntegration</artifactId>
+    <version>0.0.2</version>
+</dependency>
+
+1. POST example
+
+```markdown
+package com.data.simplerest;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import id.web.widat.SimpleRESTIntegration.RESTClient;
+import id.web.widat.SimpleRESTIntegration.constants.Method;
+import id.web.widat.SimpleRESTIntegration.constants.Protocol;
+import id.web.widat.SimpleRESTIntegration.model.Response;
+
+public class App {
+
+
+
+	public static void test1(){
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+		Map<String,String> data = new HashMap<String,String>();
+		data.put("nama", "widat");
+		data.put("alamat", "pati");
+
+		Map<String,String> property = new HashMap<String,String>();
+		property.put("Content-Type", "application/x-www-form-urlencoded");
+
+		Response response = RESTClient.pull(Protocol.HTTP, "http://httpbin.org/post", data, Method.POST, property);
+
+		ResponseData responseData = gson.fromJson(response.getResult(), ResponseData.class);
+
+		System.out.println(gson.toJson(responseData));
+
+	}
+
+	public static void main(String[] args) {
+		App.test1();
+	}
+}
+```
+
 You can use the [editor on GitHub](https://github.com/wid4t/SimpleRESTIntegration/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
