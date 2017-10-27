@@ -10,6 +10,12 @@ for use this library you must adding dependency to your pom in your project, wit
     <artifactId>SimpleRESTIntegration</artifactId>
     <version>0.0.2</version>
 </dependency>
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.2</version>
+</dependency>	  
 ```
 
 1. POST example
@@ -30,7 +36,7 @@ import id.web.widat.SimpleRESTIntegration.model.Response;
 
 public class App {
 
-	public static void test1(){
+	public static void testHttpPost(){
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -43,16 +49,16 @@ public class App {
 
 		Response response = RESTClient.pull(Protocol.HTTP, "http://httpbin.org/post", data, Method.POST, property);
 
-		ResponseData responseData = gson.fromJson(response.getResult(), ResponseData.class);
-
-		System.out.println(gson.toJson(responseData));
+		System.out.println(gson.toJson(response));
 
 	}
 
 	public static void main(String[] args) {
-		App.test1();
+		App.testHttpPost();
 	}
+
 }
+
 ```
 result:
 
