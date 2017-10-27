@@ -1,6 +1,6 @@
-## Welcome to Github Web 
+## Welcome to SimpleRESTIntegration 
 
-in this section
+in this section we will explain how to use the simple library for get data from other resources
 
 You can use the [editor on GitHub](https://github.com/wid4t/SimpleRESTIntegration/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
