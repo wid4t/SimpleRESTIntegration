@@ -12,7 +12,7 @@
 	<version>0.0.2</version>
 	<packaging>jar</packaging>
 
-	<url>https://widat.web.id</url>
+	<url>http://widat.web.id</url>
 
 	<properties>
 		<maven.compiler.source>1.6</maven.compiler.source>
