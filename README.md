@@ -18,7 +18,7 @@ for use this library you must adding dependency to your pom in your project, wit
 </dependency>	  
 ```
 
-1. GET
+- GET
 
 ```java
 package com.data.simplerest;
@@ -69,7 +69,7 @@ result:
 
 ```
 
-2. POST
+- POST
 
 ```java
 package com.data.simplerest;
