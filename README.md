@@ -18,7 +18,58 @@ for use this library you must adding dependency to your pom in your project, wit
 </dependency>	  
 ```
 
-1. POST
+1. GET
+
+```java
+package com.data.simplerest;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import id.web.widat.SimpleRESTIntegration.RESTClient;
+import id.web.widat.SimpleRESTIntegration.constants.Method;
+import id.web.widat.SimpleRESTIntegration.constants.Protocol;
+import id.web.widat.SimpleRESTIntegration.model.Response;
+
+public class App {
+
+
+	public static void testHttpGet(){
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+		Map<String,String> property = new HashMap<String,String>();
+		property.put("Content-Type", "application/json");
+
+		Response response = RESTClient.pull(Protocol.HTTP, "http://httpbin.org/get?var=value", null, Method.GET, property);
+
+		System.out.println(gson.toJson(response));
+
+	}
+
+
+	public static void main(String[] args) {
+		App.testHttpGet();
+	}
+
+}
+```
+
+result:
+
+```json
+{
+  "code": 200,
+  "message": "OK",
+  "result": "{  \"args\": {    \"var\": \"value\"  },   \"headers\": {    \"Accept\": \"text/html, image/gif, image/jpeg, *; q\u003d.2, */*; q\u003d.2\",     \"Connection\": \"close\",     \"Content-Type\": \"application/json\",     \"Host\": \"httpbin.org\",     \"User-Agent\": \"Java/1.8.0_91\"  },   \"origin\": \"115.178.201.217\",   \"url\": \"http://httpbin.org/get?var\u003dvalue\"}"
+}
+
+```
+
+2. POST
 
 ```java
 package com.data.simplerest;
